@@ -302,13 +302,13 @@ m373中，得到f687对象，进一步路由，然后doCommand
 
 ![image-20250605135310502](./assets/image-20250605135310502.png)
 
-那么现在又有一个大问题了，这个doCommandNative是哪个so里面的方法呢？通过hook的技巧肯定可以知道，但是我们就只静态分析，来提高阅读代码的能力。我们要思考，插件和主app并不是同一个类加载器，那么插件内部一般自己要System.loadLibrary加载so，然后调用so里面的函数。
+那么现在又有一个大问题了，这个doCommandNative是哪个so里面的方法呢？通过hook的技巧肯定可以知道，但是我们就只静态分析，来提高阅读代码的能力。我们要思考，这里插件化和性能密不可分，对so也应当按需加载，那么一定是在插件内部通过System.loadLibrary加载so，然后调用so里面的函数。
 
-直接在插件的反编译代码搜，就在后面有一个System
+直接在插件的反编译代码搜，就在后面有一个System.loadLibrary
 
 ![image-20250605201631758](./assets/image-20250605201631758.png)
 
-关键它so名称又是传进来的，看不到是什么，hookonPluginLoaded也找不到地方调用
+关键它so名称又是传进来的，看不到是什么，onPluginLoaded也找不到地方调用
 
 ![image-20250605201729682](./assets/image-20250605201729682.png)
 
