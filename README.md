@@ -50,7 +50,7 @@ Java.perform(function () {
 关键是secData这个字段，我们已经确定了淘宝该secData字段上传明文中存在userid，只是被加密了。
 
 ```
-{"uPriority":"0","carrier":"wifi","mnc":"wifi","platformVersion":"13","deviceId":"aDvmxULI7YgDAFM7x1aMHmxS","sid":"2219178820466"}
+{"uPriority":"0","carrier":"wifi","mnc":"wifi","platformVersion":"13","deviceId":"aDvmxULI7YgDAFM7x1aMHmxS","sid":"2219xxx466"}
 ```
 
 上面这个我们是怎么知道的呢？就是通过**JAVA层加密自吐**，hook java层的AES加密，发现加密结果存在于报文SecData中。
@@ -110,7 +110,7 @@ SecData字段的密文可被解密，秘钥是根据t(时间戳)生成的
 对密文进行逆运算得到明文，其中明文中的sid就是userid，
 
 ```json
-{"uPriority":"0","carrier":"wifi","mnc":"wifi","platformVersion":"13","deviceId":"aDvmxULI7YgDAFM7x1aMHmxS","sid":"2219178820466"}
+{"uPriority":"0","carrier":"wifi","mnc":"wifi","platformVersion":"13","deviceId":"aDvmxULI7YgDAFM7x1aMHmxS","sid":"2219xxx466"}
 ```
 
 作为一款常用app，淘宝似乎存在明文传输密钥的安全问题，虽然没有重要数据。此外且多个阿里系app都有“/amdc/mobileDispatch”这个特征的报文。每个app对应不同的appkey，这里给出几个常见的appkey
